@@ -18,10 +18,7 @@ spec:
         id: awesome-job
     spec:
       containers:
-      - command:
-        - sleep
-        - "2"
-        - "&& echo done"
+      - command: ['sh', '-c', "sleep 2 && echo done"]
         image: busybox:1.31.0
         imagePullPolicy: IfNotPresent
         name: neb-new-job-container
