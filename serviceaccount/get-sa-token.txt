@@ -1,0 +1,5 @@
+# get service account secret details
+k -n  neptune describe sa/neptune-sa-v2
+
+# Get service account secret token with base64 encoding
+kubectl -n neptune get secret neptune-sa-v2-token-kq65j -o jsonpath={.data.token} | base64 -d
