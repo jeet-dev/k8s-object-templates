@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  generation: 1
+  labels:
+    job-name: neb-new-job
+  name: neb-new-job
+  namespace: neptune
+spec:
+  backoffLimit: 6
+  completionMode: NonIndexed
+  completions: 3
+  parallelism: 2
+  template:
+    metadata:
+      labels:
+        name: neb-new-job
+        id: awesome-job
+    spec:
+      containers:
+      - command:
+        - sleep
+        - "2"
+        - "&& echo done"
+        image: busybox:1.31.0
+        imagePullPolicy: IfNotPresent
+        name: neb-new-job-container
+        resources: {}
+      dnsPolicy: ClusterFirst
+      restartPolicy: Never
