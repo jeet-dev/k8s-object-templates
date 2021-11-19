@@ -1,0 +1,28 @@
+# helm list releases  
+helm list
+
+#helm list in a namespace
+helm -n mercury list
+
+#helm uninstall app
+helm -n mercury uninstall internal-issue-report-apiv1
+
+# helm search repo 
+helm search repo bitnami/nginx
+
+# helm upgrade an app to a new available release 
+helm -n mercury upgrade internal-issue-report-apiv2 bitnami/nginx --version=9.5.4
+
+# helm search repo and read the spec
+helm search repo bitnami/apache
+helm show readme bitnami/apache
+
+# helm install new app with updates spec values
+helm -n mercury install internal-issue-report-apache  bitnami/apache  --values=values.yaml 
+
+# helm showing all apps ( with status)
+helm -n mercury list --all
+
+#helm delete app
+
+helm -n mercury delete internal-issue-report-daniel
