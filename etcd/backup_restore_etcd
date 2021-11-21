@@ -1,0 +1,25 @@
+# Snapshot ETCD
+
+ETCDCTL_API=3 etcdctl --endpoints=https://10.0.1.101:2379   --cacert=/home/cloud_user/etcd-certs/etcd-ca.pem --cert=/home/cloud_user/etcd-certs/etcd-server.crt --key=/home/cloud_user/etcd-certs/etcd-server.key   snapshot save myetcd-backup.db
+
+# Stop ETCD service 
+sudo systemctl stop etcd
+
+# Remove Old ETCD ( Simulate ETCD lost/corrupted)
+rm -rf /var/lib/etcd
+sudo rm -rf /var/lib/etcd
+
+# Restore from ETCD snapshot 
+sudo ETCDCTL_VERSION=3 etcdctl  snapshot restore myetcd-backup.db  --data-dir="/var/lib/etcd"  --name="etcd-cluster"  --initial-cluster=etcd-cluster="https://10.0.1.101:2380" --initial-advertise-peer-urls="https://10.0.1.101:2380" 
+
+# Verify etcd directory( after restore) 
+sudo ls -l /var/lib/etcd/
+
+# Change Dir OwnerShip and start etcd service)
+
+sudo chown etcd:etcd /var/lib/etcd
+sudo ls -l /var/lib/etcd/
+sudo chown -R etcd:etcd /var/lib/etcd
+sudo systemctl start etcd
+sudo systemctl status etcd
+
